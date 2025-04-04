@@ -1,20 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// src/App.tsx
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider } from './src/app/context/AuthContext';
+import AppNavigator from './src/app/navigation/AppNavigator';
 
-export default function App() {
+/**
+ * Punto de entrada principal de la aplicación.
+ * 
+ * Envuelve toda la app con el contexto de autenticación (`AuthProvider`),
+ * y configura el contenedor de navegación (`NavigationContainer`).
+ * 
+ * La lógica de navegación condicional según el rol o estado de sesión
+ * está encapsulada en `AppNavigator`.
+ */
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthProvider>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+    </AuthProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
