@@ -1,10 +1,32 @@
+/**
+ * Contexto global de autenticación para la app móvil.
+ * 
+ * 🔐 Centraliza el manejo de sesión:
+ * - Guarda el token JWT y los datos del usuario autenticado
+ * - Persiste el token usando SecureStore
+ * - Expone `login()` y `logout()` para modificar la sesión
+ * - Provee un hook `useAuthContext` para acceso seguro desde componentes
+ */
+
 // src/app/context/AuthContext.tsx
-import React, { createContext, useContext, useState } from 'react';
+
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { IAuthenticatedUser } from '../../core/types/IAuthenticatedUser';
+import {
+  clearToken,
+  getToken,
+  saveToken,
+} from '../features/auth/services/authService';
 
 /**
- * Estado global de autenticación, incluyendo datos mínimos del usuario
- * y su token JWT para llamadas autenticadas.
+ * Estructura del contexto de autenticación global.
+ * Almacena un usuario autenticado y su token JWT.
  */
 type AuthContextType = {
   user: IAuthenticatedUser | null;
@@ -16,21 +38,46 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
- * Proveedor del contexto de sesión. Envuelve la aplicación para compartir
- * el estado de autenticación entre componentes.
+ * Proveedor global de autenticación.
+ * Inicializa el token desde almacenamiento seguro (SecureStore) al montar.
+ * Expone `login` y `logout` para modificar el estado.
  */
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IAuthenticatedUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
-  const login = (userData: IAuthenticatedUser, token: string) => {
+  /**
+   * Recupera el token almacenado localmente al iniciar la app
+   * para mantener la sesión persistente (sin re-login manual).
+   */
+  useEffect(() => {
+    const loadStoredToken = async () => {
+      const storedToken = await getToken();
+      if (storedToken) {
+        setToken(storedToken);
+      }
+    };
+    loadStoredToken();
+  }, []);
+
+  /**
+   * Establece el usuario autenticado y guarda el token localmente.
+   * Se llama después de un login exitoso.
+   */
+  const login = async (userData: IAuthenticatedUser, token: string) => {
     setUser(userData);
     setToken(token);
+    await saveToken(token); // Persistencia en SecureStore
   };
 
-  const logout = () => {
+  /**
+   * Cierra la sesión eliminando datos locales y token persistido.
+   * Ideal para logout manual o expiración de sesión.
+   */
+  const logout = async () => {
     setUser(null);
     setToken(null);
+    await clearToken();
   };
 
   return (
@@ -41,8 +88,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 /**
- * Hook personalizado para acceder al estado de sesión desde cualquier componente.
- * Lanza un error si se usa fuera del provider.
+ * Hook para consumir el contexto de autenticación.
+ * Protege contra el uso fuera del `AuthProvider`.
  */
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
