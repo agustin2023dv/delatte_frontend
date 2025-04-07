@@ -10,13 +10,20 @@
   },
   "dependencies": {
     "@delatte/shared": "github:agustin2023dv/delatte_shared",
+    "@expo/metro-runtime": "~4.0.1",
+    "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-navigation/native-stack": "^7.3.8",
     "axios": "^1.8.4",
     "expo": "~52.0.42",
+    "expo-auth-session": "~6.0.3",
+    "expo-crypto": "~14.0.2",
     "expo-dev-client": "~5.0.17",
+    "expo-secure-store": "^14.0.1",
     "expo-status-bar": "~2.0.1",
+    "expo-web-browser": "~14.0.2",
     "react": "18.3.1",
-    "react-native": "0.76.8"
+    "react-native": "0.76.8",
+    "react-native-web": "~0.19.13"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
