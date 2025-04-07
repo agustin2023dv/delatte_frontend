@@ -1,26 +1,38 @@
-// src/App.tsx
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { AuthProvider } from './src/app/context/AuthContext';
-import AppNavigator from './src/app/navigation/AppNavigator';
-
 /**
  * Punto de entrada principal de la aplicación.
- * 
- * Envuelve toda la app con el contexto de autenticación (`AuthProvider`),
- * y configura el contenedor de navegación (`NavigationContainer`).
- * 
- * La lógica de navegación condicional según el rol o estado de sesión
- * está encapsulada en `AppNavigator`.
+ *
+ * Estructura jerárquica de providers:
+ * - `ThemeProvider`: gestiona el modo claro/oscuro y variables de diseño.
+ * - `AuthProvider`: contexto global de autenticación y sesión de usuario.
+ * - `NavigationContainer`: habilita la navegación entre pantallas.
+ *
+ * Toda la lógica de navegación condicional por rol está contenida en `AppNavigator`.
  */
-const App = () => {
+
+// src/App.tsx
+
+import React from 'react';
+import { ThemeProvider, useThemeContext } from './src/app/theme/ThemeProvider';
+import { AuthProvider } from './src/app/context/AuthContext';
+import AppNavigator from './src/app/navigation/AppNavigator';
+import { NavigationContainer } from '@react-navigation/native';
+
+const AppContent = () => {
+  const { theme } = useThemeContext(); 
   return (
-    <AuthProvider>
-      <NavigationContainer>
-        <AppNavigator />
-      </NavigationContainer>
-    </AuthProvider>
+    <NavigationContainer theme={theme}>
+      <AppNavigator />
+    </NavigationContainer>
   );
 };
 
+const App = () => {
+  return (
+    <AuthProvider>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </AuthProvider>
+  );
+};
 export default App;
