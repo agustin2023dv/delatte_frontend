@@ -11,8 +11,6 @@
 
 // src/app/theme/theme.ts
 
-import { Theme } from '@react-navigation/native';
-
 // 🎯 Tipos válidos que React Native acepta como `fontWeight`
 type FontWeight =
   | 'normal'
@@ -27,15 +25,24 @@ type FontWeight =
   | '800'
   | '900';
 
-// Tipado extendido del tema incluyendo fuentes, espaciado y tamaños
-export interface CustomTheme extends Theme {
+// 🎨 Tema extendido para Delatte
+export interface CustomTheme {
+  dark: boolean;
+  colors: {
+    primary: string;
+    background: string;
+    card: string;
+    text: string;
+    border: string;
+    notification: string;
+  };
   fonts: ThemeFonts;
   spacing: ThemeSpacing;
   fontSizes: ThemeFontSizes;
   borderRadius: ThemeBorderRadius;
 }
 
-// Configuración tipográfica
+// 🖋️ Tipografía base del sistema
 type ThemeFonts = {
   regular: { fontFamily: string; fontWeight: FontWeight };
   medium: { fontFamily: string; fontWeight: FontWeight };
@@ -43,7 +50,7 @@ type ThemeFonts = {
   heavy: { fontFamily: string; fontWeight: FontWeight };
 };
 
-// Espaciado consistente (padding, margin)
+// 📏 Espaciado para padding/margin
 type ThemeSpacing = {
   xs: number;
   sm: number;
@@ -52,7 +59,7 @@ type ThemeSpacing = {
   xl: number;
 };
 
-// Tamaños base de tipografía
+// 🔠 Tamaños de fuente
 type ThemeFontSizes = {
   xs: number;
   sm: number;
@@ -61,18 +68,18 @@ type ThemeFontSizes = {
   xl: number;
 };
 
-// Bordes redondeados reutilizables
+// 🟩 Bordes redondeados
 type ThemeBorderRadius = {
   sm: number;
   md: number;
   lg: number;
 };
 
-// 🎨 Tema claro (modo día / predeterminado)
+// 🌞 Tema claro
 export const lightTheme: CustomTheme = {
   dark: false,
   colors: {
-    primary: '#D72638', 
+    primary: '#D72638',
     background: '#FFFFFF',
     card: '#F9F9F9',
     text: '#222222',
@@ -106,7 +113,7 @@ export const lightTheme: CustomTheme = {
   },
 };
 
-// 🌙 Tema oscuro (modo noche)
+// 🌚 Tema oscuro
 export const darkTheme: CustomTheme = {
   dark: true,
   colors: {

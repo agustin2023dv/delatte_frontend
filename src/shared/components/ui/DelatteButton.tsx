@@ -1,3 +1,5 @@
+// src/shared/components/ui/DelatteButton.tsx
+
 /**
  * Componente de botón reutilizable para acciones primarias.
  *
@@ -7,6 +9,7 @@
  * 📌 Props:
  * - `title`: texto visible del botón
  * - `onPress`: función callback al presionar el botón
+ * - `disabled`: desactiva el botón (opcional)
  * - `variant`: tipo de botón (por ahora solo `'primary'`, pero es escalable)
  *
  * 🎨 Hereda:
@@ -16,11 +19,9 @@
  *
  * 💡 Ejemplo de uso:
  * ```tsx
- * <DelatteButton title="Ingresar" onPress={() => console.log('Login')} />
+ * <DelatteButton title="Ingresar" onPress={...} disabled={loading} />
  * ```
  */
-
-// src/shared/components/ui/DelatteButton.tsx
 
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
@@ -30,15 +31,18 @@ import { CustomTheme } from '../../../app/theme/theme';
 type Props = {
   title: string;
   onPress: () => void;
+  disabled?: boolean; // ✅ agregado
 };
 
-const DelatteButton = ({ title, onPress }: Props) => {
+const DelatteButton = ({ title, onPress, disabled = false }: Props) => {
   const theme = useTheme() as CustomTheme;
+
   // Validación básica del tema
   if (!theme || !theme.fontSizes || !theme.spacing || !theme.borderRadius) {
     console.error('⚠️ El tema no está configurado correctamente:', theme);
-    return null; // Evita renderizar el botón si el tema no está listo
+    return null;
   }
+
   const {
     colors = { primary: '#D72638', text: '#222222' },
     fonts = {
@@ -54,20 +58,22 @@ const DelatteButton = ({ title, onPress }: Props) => {
       style={[
         styles.button,
         {
-          backgroundColor: colors.primary,
-          paddingVertical: spacing.md || 16, // Valor predeterminado si falta
-          paddingHorizontal: spacing.lg || 24, // Valor predeterminado si falta
-          borderRadius: borderRadius.md || 8, // Valor predeterminado si falta
+          backgroundColor: disabled ? '#cccccc' : colors.primary,
+          paddingVertical: spacing.md || 16,
+          paddingHorizontal: spacing.lg || 24,
+          borderRadius: borderRadius.md || 8,
         },
       ]}
       onPress={onPress}
+      disabled={disabled} // ✅ también aplicado aquí
     >
       <Text
         style={{
           color: colors.text,
           fontFamily: fonts.medium.fontFamily,
           fontWeight: fonts.medium.fontWeight as any,
-          fontSize: fontSizes.md || 16, 
+          fontSize: fontSizes.md || 16,
+          opacity: disabled ? 0.6 : 1, // 🔘 indicación visual si está deshabilitado
         }}
       >
         {title}
