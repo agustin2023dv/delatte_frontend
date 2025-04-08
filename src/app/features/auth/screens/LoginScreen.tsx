@@ -18,12 +18,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import DelatteButton from '@shared/components/ui/DelatteButton';
 import { useOAuth } from '@shared/hooks/useOAuth';
-import { useLogin } from '../hooks/useLogin'; // ✅ Nuevo hook unificado
+import { useLogin } from '../hooks/useLogin'; 
+import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
   const { startAuthentication } = useOAuth();          // 🔐 Login con Google
   const { handleLogin, loading, error } = useLogin();  // 📧 Login tradicional para cualquier rol
-
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -64,6 +65,10 @@ const LoginScreen = () => {
 
       {/* 🔐 Login con Google (OAuth) */}
       <DelatteButton title="Continuar con Google" onPress={startAuthentication} />
+      <DelatteButton
+  title="¿No tenés cuenta? Crear cuenta"
+  onPress={() => navigation.navigate('RegisterSelector')}
+/>
     </View>
   );
 };
