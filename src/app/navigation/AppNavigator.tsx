@@ -16,15 +16,18 @@ import { useAuthContext } from '../context/AuthContext';
 const AppNavigator = () => {
   const { user } = useAuthContext();
 
-  return (
-    !user ? (
-      <AuthNavigator />
-    ) : user.role === 'customer' ? (
-      <CustomerNavigator />
-    ) : (
-      <ManagerNavigator />
-    )
-  );
+  if (!user) {
+    return <AuthNavigator />;
+  }
+
+  switch (user.role) {
+    case 'customer':
+      return <CustomerNavigator />;
+    case 'manager':
+      return <ManagerNavigator />;
+    default:
+      return <AuthNavigator />; 
+  }
 };
 
 export default AppNavigator;
