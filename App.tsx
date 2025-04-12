@@ -13,9 +13,9 @@
 
 import React from 'react';
 import { ThemeProvider, useThemeContext } from './src/app/theme/ThemeProvider';
-import { AuthProvider } from './src/app/context/AuthContext';
 import AppNavigator from './src/app/navigation/AppNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider } from './src/context/AuthContext';
 
 const AppContent = () => {
   const { theme } = useThemeContext(); 
