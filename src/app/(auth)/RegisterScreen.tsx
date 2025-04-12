@@ -22,7 +22,7 @@ import {
 import { useOAuth } from '@hooks/useOAuth';
 import DelatteButton from '@ui/DelatteButton';
 import { useNavigation } from '@react-navigation/native';
-import { useRegisterUser } from '../hooks/useRegisterUser';
+import { useRegisterUser } from '../features/auth/hooks/useRegisterUser';
 
 const RegisterScreen = () => {
   const navigation = useNavigation();
@@ -42,6 +42,7 @@ const RegisterScreen = () => {
     }
 
     try {
+      console.log("Data a enviar:",nombre,apellido,email,password)
       await handleRegister({
         nombre,
         apellido,

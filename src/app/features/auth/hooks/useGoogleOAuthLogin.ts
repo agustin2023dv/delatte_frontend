@@ -15,8 +15,8 @@
 //src/features/auth/hooks/useGoogleOAuthLogin.ts
 
 import { useState } from 'react';
-import { loginOrRegisterWithGoogle } from '../services/authApiService';
-import { useAuthContext } from 'src/app/context/AuthContext';
+import { loginOrRegisterWithGoogle } from '../services/authAccessApiService';
+import { useAuthContext } from 'src/context/AuthContext';
 import { toAuthenticatedUser } from '@shared/transformers/userTransformer';
 
 export const useGoogleOAuthLogin = () => {

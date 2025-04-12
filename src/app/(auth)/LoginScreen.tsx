@@ -15,10 +15,10 @@
  */
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity } from 'react-native';
 import DelatteButton from '@shared/components/ui/DelatteButton';
 import { useOAuth } from '@shared/hooks/useOAuth';
-import { useLogin } from '../hooks/useLogin'; 
+import { useLogin } from '../features/auth/hooks/useLogin'; 
 import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
@@ -30,7 +30,7 @@ const LoginScreen = () => {
 
   const onLoginWithCredentials = async () => {
     try {
-      await handleLogin(email, password);
+      await handleLogin({ email, password });
       // ✅ El AuthContext redirige automáticamente según el rol
     } catch (err) {
       Alert.alert('Error de inicio de sesión', error || 'Verifica tus datos.');
@@ -57,6 +57,12 @@ const LoginScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
+
+      {/* 🔗 Link para recuperar contraseña */}
+      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+        <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
+      </TouchableOpacity>
+
       <DelatteButton
         title={loading ? 'Cargando...' : 'Iniciar sesión'}
         onPress={onLoginWithCredentials}
@@ -66,9 +72,9 @@ const LoginScreen = () => {
       {/* 🔐 Login con Google (OAuth) */}
       <DelatteButton title="Continuar con Google" onPress={startAuthentication} />
       <DelatteButton
-  title="¿No tenés cuenta? Crear cuenta"
-  onPress={() => navigation.navigate('RegisterSelector')}
-/>
+        title="¿No tenés cuenta? Crear cuenta"
+        onPress={() => navigation.navigate('RegisterSelector')}
+      />
     </View>
   );
 };
@@ -93,6 +99,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 8,
     fontSize: 16,
+  },
+  forgotText: {
+    color: '#007BFF',
+    textAlign: 'right',
+    marginTop: 4,
+    marginBottom: 12,
+    fontSize: 14,
   },
 });
 

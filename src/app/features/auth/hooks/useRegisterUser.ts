@@ -14,7 +14,7 @@
 // src/features/auth/hooks/useRegisterUser.ts
 
 import { useState } from 'react';
-import { registerCustomer } from '../services/authApiService';
+import { registerCustomer } from '../services/authAccessApiService';
 import { ICustomerRegistrationDTO } from '@delatte/shared/dtos';
 import { IUser } from '@delatte/shared/interfaces';
 

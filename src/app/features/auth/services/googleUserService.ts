@@ -11,7 +11,7 @@
 // src/app/features/auth/services/googleUserService.ts
 
 import { IAuthenticatedUser } from '../../../../core/types/IAuthenticatedUser';
-import { useAuthContext } from '../../../context/AuthContext';
+import { useAuthContext } from '../../../../context/AuthContext';
 import { saveToken } from './authService';
 
 /**

@@ -9,26 +9,27 @@
  */
 
 import { useState } from 'react';
-import { loginCustomer, loginManager } from '../services/authApiService';
-import { useAuthContext } from 'src/app/context/AuthContext';
+import { loginCustomer, loginManager } from '../services/authAccessApiService';
+import { useAuthContext } from 'src/context/AuthContext';
 import { toAuthenticatedUser } from '@shared/transformers/userTransformer';
+import { ILoginDTO } from '@delatte/shared/dtos';
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuthContext();
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleLogin = async ({ email, password }: ILoginDTO) => {
     setLoading(true);
     setError(null);
     try {
       // 🔁 Intenta primero login como customer
       try {
-        const { token, user } = await loginCustomer(email, password);
+        const { token, user } = await loginCustomer({ email, password });
         return login(toAuthenticatedUser(user), token);
       } catch {
         // Si falla, intenta login como manager
-        const { token, user } = await loginManager(email, password);
+        const { token, user } = await loginManager({ email, password });
         return login(toAuthenticatedUser(user), token);
       }
     } catch (err: any) {
