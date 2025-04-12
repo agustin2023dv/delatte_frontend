@@ -8,7 +8,12 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "scheme": "delatte",
-    "platforms": ["android", "ios", "web"],
+    "deepLinking": true,
+    "platforms": [
+      "android",
+      "ios",
+      "web"
+    ],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -26,6 +31,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
