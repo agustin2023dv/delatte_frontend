@@ -1,10 +1,12 @@
 // src/app/navigation/AuthNavigator.tsx
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from '../features/auth/screens/LoginScreen';
-import RegisterManagerScreen from '../features/auth/screens/RegisterManagerScreen';
-import RegisterScreen from '../features/auth/screens/RegisterScreen';
-import RegisterRoleSelectorScreen from '../features/auth/screens/RegisterRoleSelectorScreen';
+import LoginScreen from '../(auth)/LoginScreen';
+import RegisterManagerScreen from '../(auth)/RegisterManagerScreen';
+import RegisterScreen from '../(auth)/RegisterScreen';
+import RegisterRoleSelectorScreen from '../(auth)/RegisterRoleSelectorScreen';
+import ForgotPasswordScreen from '../(auth)/ForgotPasswordScreen';
+import ResetPasswordScreen from '../(auth)/ResetPasswordScreen';
 
 /**
  * Flujo de navegación para usuarios no autenticados.
@@ -17,8 +19,11 @@ const AuthNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-    <Stack.Screen name="RegisterManager" component={RegisterManagerScreen} />
-    <Stack.Screen name="RegisterSelector" component={RegisterRoleSelectorScreen} />
+      <Stack.Screen name="RegisterManager" component={RegisterManagerScreen} />
+      <Stack.Screen name="RegisterSelector" component={RegisterRoleSelectorScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} /> 
+      <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+
     </Stack.Navigator>
   );
 };

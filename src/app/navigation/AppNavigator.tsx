@@ -3,7 +3,7 @@ import React from 'react';
 import CustomerNavigator from './CustomerNavigator';
 import AuthNavigator from './AuthNavigator';
 import ManagerNavigator from './ManagerNavigator';
-import { useAuthContext } from '../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 
 /**
  * Determina dinámicamente qué flujo de navegación mostrar
