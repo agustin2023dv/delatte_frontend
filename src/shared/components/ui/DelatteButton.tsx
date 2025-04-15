@@ -25,32 +25,23 @@
 
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { CustomTheme } from '../../../app/theme/theme';
+import { useThemeContext } from 'src/app/theme/ThemeProvider';
 
 type Props = {
   title: string;
   onPress: () => void;
-  disabled?: boolean; // ✅ agregado
+  disabled?: boolean;
 };
 
 const DelatteButton = ({ title, onPress, disabled = false }: Props) => {
-  const theme = useTheme() as CustomTheme;
-
-  // Validación básica del tema
-  if (!theme || !theme.fontSizes || !theme.spacing || !theme.borderRadius) {
-    console.error('⚠️ El tema no está configurado correctamente:', theme);
-    return null;
-  }
+  const { theme } = useThemeContext();
 
   const {
-    colors = { primary: '#D72638', text: '#222222' },
-    fonts = {
-      medium: { fontFamily: 'System', fontWeight: '500' },
-    },
-    fontSizes = { sm: 12, md: 16, lg: 20 },
-    spacing = { sm: 8, md: 16, lg: 24 },
-    borderRadius = { sm: 4, md: 8, lg: 12 },
+    colors,
+    fonts,
+    fontSizes,
+    spacing,
+    borderRadius,
   } = theme;
 
   return (
@@ -59,21 +50,21 @@ const DelatteButton = ({ title, onPress, disabled = false }: Props) => {
         styles.button,
         {
           backgroundColor: disabled ? '#cccccc' : colors.primary,
-          paddingVertical: spacing.md || 16,
-          paddingHorizontal: spacing.lg || 24,
-          borderRadius: borderRadius.md || 8,
+          paddingVertical: spacing.md,
+          paddingHorizontal: spacing.lg,
+          borderRadius: borderRadius.md,
         },
       ]}
       onPress={onPress}
-      disabled={disabled} // ✅ también aplicado aquí
+      disabled={disabled}
     >
       <Text
         style={{
           color: colors.text,
           fontFamily: fonts.medium.fontFamily,
           fontWeight: fonts.medium.fontWeight as any,
-          fontSize: fontSizes.md || 16,
-          opacity: disabled ? 0.6 : 1, // 🔘 indicación visual si está deshabilitado
+          fontSize: fontSizes.md,
+          opacity: disabled ? 0.6 : 1,
         }}
       >
         {title}

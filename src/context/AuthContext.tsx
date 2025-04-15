@@ -1,14 +1,12 @@
 /**
  * Contexto global de autenticación para la app móvil.
- * 
+ *
  * 🔐 Centraliza el manejo de sesión:
  * - Guarda el token JWT y los datos del usuario autenticado
  * - Persiste el token usando SecureStore
  * - Expone `login()` y `logout()` para modificar la sesión
  * - Provee un hook `useAuthContext` para acceso seguro desde componentes
  */
-
-// src/app/context/AuthContext.tsx
 
 import React, {
   createContext,
@@ -31,6 +29,7 @@ import {
 type AuthContextType = {
   user: IAuthenticatedUser | null;
   token: string | null;
+  isLoading: boolean; // ⏳ Indica si se está cargando el token al iniciar
   login: (userData: IAuthenticatedUser, token: string) => void;
   logout: () => void;
 };
@@ -45,6 +44,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IAuthenticatedUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   /**
    * Recupera el token almacenado localmente al iniciar la app
@@ -55,7 +55,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const storedToken = await getToken();
       if (storedToken) {
         setToken(storedToken);
+        // Podrías agregar lógica para obtener el usuario desde el backend si fuera necesario
       }
+      setIsLoading(false);
     };
     loadStoredToken();
   }, []);
@@ -81,7 +83,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        isLoading,
+        login,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
