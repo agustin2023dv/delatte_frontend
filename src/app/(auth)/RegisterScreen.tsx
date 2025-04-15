@@ -1,3 +1,5 @@
+// src/app/(auth)/RegisterScreen.tsx
+
 /**
  * 🧾 Pantalla `RegisterScreen`
  *
@@ -7,8 +9,6 @@
  *
  * ⚠️ Usuarios con rol "manager" deben registrarse en otro formulario exclusivo.
  */
-
-// src/features/auth/screens/RegisterScreen.tsx
 
 import React, { useState } from 'react';
 import {
@@ -21,13 +21,13 @@ import {
 } from 'react-native';
 import { useOAuth } from '@hooks/useOAuth';
 import DelatteButton from '@ui/DelatteButton';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { useRegisterUser } from '../features/auth/hooks/useRegisterUser';
 
 const RegisterScreen = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
   const { startAuthentication } = useOAuth();
-  const { handleRegister, loading, error } = useRegisterUser(); 
+  const { handleRegister, loading, error } = useRegisterUser();
 
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -42,7 +42,6 @@ const RegisterScreen = () => {
     }
 
     try {
-      console.log("Data a enviar:",nombre,apellido,email,password)
       await handleRegister({
         nombre,
         apellido,
@@ -55,7 +54,7 @@ const RegisterScreen = () => {
         'Te enviamos un email para verificar tu cuenta.'
       );
 
-      navigation.navigate('Login');
+      router.push('/(auth)/LoginScreen');
     } catch {
       Alert.alert(
         'Error al registrarse',
@@ -112,7 +111,7 @@ const RegisterScreen = () => {
       <DelatteButton title="Registrarme con Google" onPress={startAuthentication} />
       <DelatteButton
         title="Ya tengo cuenta"
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => router.push('/(auth)/LoginScreen')}
       />
     </ScrollView>
   );

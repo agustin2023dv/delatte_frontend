@@ -1,59 +1,41 @@
 /**
- * 🍽️ Servicio de API para gestión de restaurantes (base).
+ * Servicio de API para endpoints base de restaurantes.
  *
- * 📌 Incluye funciones que interactúan con el backend:
- * - Registrar restaurante junto con su manager (POST /restaurants)
+ * 📌 Refleja el controller: restaurantBase.controller.ts
+ *
+ * Incluye funciones que interactúan con el backend:
  * - Obtener todos los restaurantes (GET /restaurants)
- * - Obtener restaurante por ID (GET /restaurants/:id)
- * - Obtener restaurantes por manager (GET /restaurants/managers/:id/restaurants)
+ * - Obtener un restaurante por ID (GET /restaurants/:id)
+ * - Obtener restaurantes de un manager (GET /restaurants/managers/:id/restaurants)
+ * - Registrar restaurante y manager (POST /restaurants)
+ * - Actualizar restaurante (PUT /restaurants/:id)
  */
 
-import axios from 'axios';
+import { axiosInstance } from 'src/lib/axios/axiosInstance';
 import {
-  IRestaurantRegistrationDTO,
+  IRestaurantRegistrationInitialDTO,
   IManagerRegistrationDTO,
 } from '@delatte/shared/dtos';
 import { IRestaurant } from '@delatte/shared/interfaces';
 
 /**
- * Registra un nuevo restaurante junto con su manager.
+ * Obtiene todos los restaurantes registrados en la plataforma.
  *
- * @param restaurant Datos básicos del restaurante (nombre, dirección, código postal)
- * @param manager Datos del manager (nombre, apellido, email, contraseña)
- * @returns Restaurante creado
- * @throws Error si la solicitud falla
- */
-export const registerRestaurantAndManager = async (
-  restaurant: IRestaurantRegistrationDTO,
-  manager: IManagerRegistrationDTO
-): Promise<{ restaurant: IRestaurant }> => {
-  const response = await axios.post('/restaurants', {
-    restaurant,
-    manager,
-  });
-  return response.data;
-};
-
-/**
- * Obtiene todos los restaurantes disponibles.
- *
- * @returns Lista de restaurantes
- * @throws Error si la solicitud falla
+ * @returns Array de restaurantes
  */
 export const getAllRestaurants = async (): Promise<IRestaurant[]> => {
-  const response = await axios.get('/restaurants');
+  const response = await axiosInstance.get('/restaurants');
   return response.data;
 };
 
 /**
- * Obtiene un restaurante por su ID.
+ * Obtiene los datos de un restaurante por su ID.
  *
  * @param id ID del restaurante
- * @returns Restaurante correspondiente
- * @throws Error si la solicitud falla
+ * @returns Restaurante encontrado
  */
 export const getRestaurantById = async (id: string): Promise<IRestaurant> => {
-  const response = await axios.get(`/restaurants/${id}`);
+  const response = await axiosInstance.get(`/restaurants/${id}`);
   return response.data;
 };
 
@@ -61,12 +43,46 @@ export const getRestaurantById = async (id: string): Promise<IRestaurant> => {
  * Obtiene todos los restaurantes gestionados por un manager.
  *
  * @param managerId ID del manager
- * @returns Lista de restaurantes
- * @throws Error si la solicitud falla
+ * @returns Array de restaurantes gestionados
  */
 export const getRestaurantsByManager = async (
   managerId: string
 ): Promise<IRestaurant[]> => {
-  const response = await axios.get(`/restaurants/managers/${managerId}/restaurants`);
+  const response = await axiosInstance.get(
+    `/restaurants/managers/${managerId}/restaurants`
+  );
+  return response.data;
+};
+
+/**
+ * Registra un nuevo restaurante junto con el manager responsable.
+ *
+ * @param restaurant Datos iniciales del restaurante
+ * @param manager Datos del manager
+ * @returns Objeto con restaurante y manager creados
+ */
+export const registerRestaurantAndManager = async (
+  restaurant: IRestaurantRegistrationInitialDTO,
+  manager: IManagerRegistrationDTO
+): Promise<{ restaurant: IRestaurant; manager: any }> => {
+  const response = await axiosInstance.post('/restaurants', {
+    restaurant,
+    manager,
+  });
+  return response.data;
+};
+
+/**
+ * Actualiza los datos de un restaurante.
+ *
+ * @param id ID del restaurante
+ * @param data Datos actualizados
+ * @returns Restaurante actualizado
+ */
+export const updateRestaurant = async (
+  id: string,
+  data: Partial<IRestaurant>
+): Promise<IRestaurant> => {
+  const response = await axiosInstance.put(`/restaurants/${id}`, data);
   return response.data;
 };

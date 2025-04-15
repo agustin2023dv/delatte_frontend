@@ -30,7 +30,7 @@ const VerifyEmailScreen = () => {
 
       <DelatteButton
         title="Ir al inicio de sesión"
-        onPress={() => router.push('/login')}
+        onPress={() => router.push('/(auth)/LoginScreen')}
       />
     </View>
   );

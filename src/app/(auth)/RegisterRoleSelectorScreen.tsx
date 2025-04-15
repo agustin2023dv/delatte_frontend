@@ -1,3 +1,5 @@
+// src/app/(auth)/RegisterRoleSelectorScreen.tsx
+
 /**
  * 🧭 Pantalla `RegisterRoleSelectorScreen`
  *
@@ -6,17 +8,17 @@
  * - Manager de restaurante (registro + creación de restaurante)
  *
  * 🔗 Navega a:
- * - `Register` → Registro de cliente
- * - `RegisterManager` → Registro de manager + restaurante
+ * - `/RegisterScreen` → Registro de cliente
+ * - `/RegisterManagerScreen` → Registro de manager + restaurante
  */
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import DelatteButton from '@ui/DelatteButton';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 
 const RegisterRoleSelectorScreen = () => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -24,12 +26,12 @@ const RegisterRoleSelectorScreen = () => {
 
       <DelatteButton
         title="Cuenta de Cliente"
-        onPress={() => navigation.navigate('Register')}
+        onPress={() => router.push('/(auth)/RegisterScreen')}
       />
 
       <DelatteButton
         title="Cuenta de Manager"
-        onPress={() => navigation.navigate('RegisterManager')}
+        onPress={() => router.push('/(auth)/RegisterManagerScreen')}
       />
     </View>
   );

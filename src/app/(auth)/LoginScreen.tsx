@@ -1,4 +1,4 @@
-// src/features/auth/screens/LoginScreen.tsx
+// src/app/(auth)/LoginScreen.tsx
 
 /**
  * 🧩 Pantalla `LoginScreen`
@@ -15,16 +15,25 @@
  */
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import DelatteButton from '@shared/components/ui/DelatteButton';
 import { useOAuth } from '@shared/hooks/useOAuth';
-import { useLogin } from '../features/auth/hooks/useLogin'; 
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
+import { useLogin } from '@features/auth/hooks/useLogin';
 
 const LoginScreen = () => {
-  const { startAuthentication } = useOAuth();          // 🔐 Login con Google
-  const { handleLogin, loading, error } = useLogin();  // 📧 Login tradicional para cualquier rol
-  const navigation = useNavigation();
+  const router = useRouter();
+  console.log('Router:', router);
+  const { startAuthentication } = useOAuth();
+  const { handleLogin, loading, error } = useLogin();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,7 +41,7 @@ const LoginScreen = () => {
     try {
       await handleLogin({ email, password });
       // ✅ El AuthContext redirige automáticamente según el rol
-    } catch (err) {
+    } catch {
       Alert.alert('Error de inicio de sesión', error || 'Verifica tus datos.');
     }
   };
@@ -41,7 +50,7 @@ const LoginScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Iniciar sesión</Text>
 
-      {/* 🧾 Login tradicional (email + password) */}
+      {/* 🧾 Login tradicional */}
       <TextInput
         placeholder="Email"
         style={styles.input}
@@ -58,22 +67,25 @@ const LoginScreen = () => {
         secureTextEntry
       />
 
-      {/* 🔗 Link para recuperar contraseña */}
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+      {/* 🔗 Recuperar contraseña */}
+      <TouchableOpacity onPress={() => router.push('/(auth)/ForgotPasswordScreen')}>
         <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
       </TouchableOpacity>
 
+      {/* 🔘 Botones de acción */}
       <DelatteButton
         title={loading ? 'Cargando...' : 'Iniciar sesión'}
         onPress={onLoginWithCredentials}
         disabled={loading}
       />
 
-      {/* 🔐 Login con Google (OAuth) */}
+      {/* 🔐 Login con Google */}
       <DelatteButton title="Continuar con Google" onPress={startAuthentication} />
+
+      {/* 🆕 Ir a registro */}
       <DelatteButton
         title="¿No tenés cuenta? Crear cuenta"
-        onPress={() => navigation.navigate('RegisterSelector')}
+        onPress={() => router.push('/(auth)/RegisterRoleSelectorScreen')}
       />
     </View>
   );

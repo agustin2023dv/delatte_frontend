@@ -1,50 +1,31 @@
-/**
- * 🧾 Hook `useRegisterRestaurantWithManager`
- *
- * Encapsula el flujo de registro conjunto de un restaurante y su manager.
- *
- * ✔️ Llama al endpoint `POST /restaurants` con los datos de restaurante y manager
- * ✔️ Maneja estado de carga (`loading`) y errores (`error`)
- * ✔️ Devuelve el restaurante registrado
- *
- * Este hook se usa en formularios donde un nuevo manager crea su restaurante.
- */
+// src/app/features/restaurant/hooks/useRegisterRestaurantAndManager.ts
 
 import { useState } from 'react';
 import {
+  IRestaurantRegistrationInitialDTO,
   IManagerRegistrationDTO,
-  IRestaurantRegistrationDTO,
 } from '@delatte/shared/dtos';
-import { IRestaurant } from '@delatte/shared/interfaces';
 import { registerRestaurantAndManager } from '../services/restaurantBaseApiService';
+import { IRestaurant } from '@delatte/shared/interfaces';
 
-export const useRegisterRestaurantWithManager = () => {
-  const [loading, setLoading] = useState(false); // ⏳ Estado de carga
-  const [error, setError] = useState<string | null>(null); // ⚠️ Error textual
+/**
+ * Hook para registrar un restaurante junto con su manager.
+ */
+export const useRegisterRestaurantAndManager = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  /**
-   * Ejecuta el registro de un restaurante junto con su manager.
-   *
-   * @param restaurant Datos del restaurante
-   * @param manager Datos del nuevo manager
-   * @returns Restaurante creado
-   * @throws Error si falla el proceso
-   */
   const handleRegister = async (
-    restaurant: IRestaurantRegistrationDTO,
+    restaurant: IRestaurantRegistrationInitialDTO,
     manager: IManagerRegistrationDTO
-  ): Promise<IRestaurant> => {
-    setLoading(true);
-    setError(null);
-
+  ): Promise<{ restaurant: IRestaurant; manager: any }> => {
     try {
-      const { restaurant: createdRestaurant } = await registerRestaurantAndManager(
-        restaurant,
-        manager
-      );
-      return createdRestaurant;
+      setLoading(true);
+      setError(null);
+      const result = await registerRestaurantAndManager(restaurant, manager);
+      return result;
     } catch (err: any) {
-      setError(err?.response?.data?.message || err.message || 'Error inesperado');
+      setError(err?.response?.data?.message || 'Error inesperado');
       throw err;
     } finally {
       setLoading(false);
