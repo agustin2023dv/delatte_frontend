@@ -11,7 +11,11 @@
  */
 
 import { axiosInstance } from 'src/lib/axios/axiosInstance';
-import { ICustomerRegistrationDTO, ILoginDTO } from '@delatte/shared/dtos';
+import {
+  ICustomerRegistrationDTO,
+  ILoginDTO,
+  ILoginResponseDTO,
+} from '@delatte/shared/dtos';
 import { IUser } from '@delatte/shared/interfaces';
 
 /**
@@ -37,7 +41,7 @@ export const registerCustomer = async (
  */
 export const loginCustomer = async (
   credentials: ILoginDTO
-): Promise<{ token: string; user: IUser }> => {
+): Promise<ILoginResponseDTO> => {
   const response = await axiosInstance.post('/auth', credentials);
   return response.data;
 };
@@ -51,21 +55,38 @@ export const loginCustomer = async (
  */
 export const loginManager = async (
   credentials: ILoginDTO
-): Promise<{ token: string; user: IUser }> => {
+): Promise<ILoginResponseDTO> => {
   const response = await axiosInstance.post('/auth/manager', credentials);
   return response.data;
 };
 
 /**
- * Inicia sesión o registra automáticamente a un usuario con Google OAuth.
+ * Inicia sesión con una cuenta de Google previamente registrada.
  *
  * @param accessToken Token de Google obtenido desde el frontend
  * @returns Objeto con token JWT y datos del usuario
- * @throws Error si el token de Google no es válido
+ * @throws Error si el usuario no existe o hay un conflicto
  */
-export const loginOrRegisterWithGoogle = async (
+export const loginWithGoogle = async (
   accessToken: string
-): Promise<{ token: string; user: IUser }> => {
-  const response = await axiosInstance.post('/auth/google', { accessToken });
+): Promise<ILoginResponseDTO> => {
+  const response = await axiosInstance.post('/auth/google/login', { accessToken });
+  console.log(accessToken);
   return response.data;
 };
+
+
+/**
+ * Registra un nuevo usuario en la plataforma usando Google OAuth.
+ *
+ * @param accessToken Token de Google obtenido desde el frontend
+ * @returns Usuario registrado
+ * @throws Error si el correo ya está registrado
+ */
+export const registerWithGoogle = async (
+  accessToken: string
+): Promise<IUser> => {
+  const response = await axiosInstance.post('/auth/google/register', { accessToken });
+  return response.data.user;
+};
+

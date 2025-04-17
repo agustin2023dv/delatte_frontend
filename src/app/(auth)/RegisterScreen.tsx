@@ -19,15 +19,18 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import { useOAuth } from '@hooks/useOAuth';
-import DelatteButton from '@ui/DelatteButton';
+import DelatteButton from '@shared/components/ui/DelatteButton';
 import { useRouter } from 'expo-router';
-import { useRegisterUser } from '../features/auth/hooks/useRegisterUser';
+import { useOAuth } from '@shared/hooks/useOAuth';
+import { useGoogleOAuthRegister } from '@features/auth/hooks/useGoogleOAuthRegister';
+import { useRegisterUser } from '@features/auth/hooks/useRegisterUser';
 
 const RegisterScreen = () => {
   const router = useRouter();
-  const { startAuthentication } = useOAuth();
+
+  const { startAuthentication } = useOAuth(onGoogleRegister);
   const { handleRegister, loading, error } = useRegisterUser();
+  const { handleGoogleRegister } = useGoogleOAuthRegister();
 
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -49,19 +52,22 @@ const RegisterScreen = () => {
         password,
       });
 
-      Alert.alert(
-        '✅ Registro exitoso',
-        'Te enviamos un email para verificar tu cuenta.'
-      );
-
+      Alert.alert('✅ Registro exitoso', 'Te enviamos un email para verificar tu cuenta.');
       router.push('/(auth)/LoginScreen');
     } catch {
-      Alert.alert(
-        'Error al registrarse',
-        error || 'Ocurrió un problema inesperado.'
-      );
+      Alert.alert('Error al registrarse', error || 'Ocurrió un problema inesperado.');
     }
   };
+
+  async function onGoogleRegister(accessToken: string) {
+    try {
+      const newUser = await handleGoogleRegister(accessToken);
+      Alert.alert('✅ Registro exitoso', `Te registraste como ${newUser.profile.nombre}`);
+      router.push('/(auth)/LoginScreen');
+    } catch (_) {
+      // Error ya fue mostrado en el hook
+    }
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

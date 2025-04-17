@@ -85,7 +85,7 @@ export const useOAuth = (onSuccess?: (accessToken: string) => Promise<void>) => 
           setAccessToken(token);
 
           if (onSuccess) {
-            await onSuccess(token); // ☑️ extensible sin modificar
+            await onSuccess(token); 
           }
         } catch (err) {
           console.error('❌ Error en flujo OAuth:', err);

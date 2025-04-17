@@ -8,10 +8,10 @@
  * - Email y contraseña (login tradicional)
  *
  * 🔐 Usa hooks reutilizables:
- *    - `useOAuth` para login/register con Google
- *    - `useLogin` para login con email/contraseña (cualquier rol)
+ *    - `useOAuth` para obtener token de Google
+ *    - `useGoogleOAuthLogin` para enviar el token al backend
+ *    - `useLogin` para login con email/contraseña
  * 📦 El backend se encarga de detectar el rol del usuario
- * 🔁 Actualiza el `AuthContext` global con los datos de sesión
  */
 
 import React, { useState } from 'react';
@@ -25,22 +25,31 @@ import {
 } from 'react-native';
 import DelatteButton from '@shared/components/ui/DelatteButton';
 import { useOAuth } from '@shared/hooks/useOAuth';
-import { useRouter } from 'expo-router';
+import { useGoogleOAuthLogin } from '@features/auth/hooks/useGoogleOAuthLogin';
 import { useLogin } from '@features/auth/hooks/useLogin';
+import { useRouter } from 'expo-router';
 
 const LoginScreen = () => {
   const router = useRouter();
-  console.log('Router:', router);
-  const { startAuthentication } = useOAuth();
+
+  const { startAuthentication } = useOAuth(onGoogleLogin);
+  const { handleGoogleLogin } = useGoogleOAuthLogin();
   const { handleLogin, loading, error } = useLogin();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  async function onGoogleLogin(accessToken: string) {
+    try {
+      await handleGoogleLogin(accessToken);
+    } catch (_) {
+      // El error ya fue mostrado en el hook
+    }
+  }
+
   const onLoginWithCredentials = async () => {
     try {
       await handleLogin({ email, password });
-      // ✅ El AuthContext redirige automáticamente según el rol
     } catch {
       Alert.alert('Error de inicio de sesión', error || 'Verifica tus datos.');
     }
@@ -50,7 +59,6 @@ const LoginScreen = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Iniciar sesión</Text>
 
-      {/* 🧾 Login tradicional */}
       <TextInput
         placeholder="Email"
         style={styles.input}
@@ -67,22 +75,18 @@ const LoginScreen = () => {
         secureTextEntry
       />
 
-      {/* 🔗 Recuperar contraseña */}
       <TouchableOpacity onPress={() => router.push('/(auth)/ForgotPasswordScreen')}>
         <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
       </TouchableOpacity>
 
-      {/* 🔘 Botones de acción */}
       <DelatteButton
         title={loading ? 'Cargando...' : 'Iniciar sesión'}
         onPress={onLoginWithCredentials}
         disabled={loading}
       />
 
-      {/* 🔐 Login con Google */}
       <DelatteButton title="Continuar con Google" onPress={startAuthentication} />
 
-      {/* 🆕 Ir a registro */}
       <DelatteButton
         title="¿No tenés cuenta? Crear cuenta"
         onPress={() => router.push('/(auth)/RegisterRoleSelectorScreen')}
