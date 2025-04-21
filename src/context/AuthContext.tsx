@@ -15,6 +15,7 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
+import {jwtDecode} from 'jwt-decode';
 import { IAuthenticatedUser } from '../core/types/IAuthenticatedUser';
 import {
   clearToken,
@@ -55,7 +56,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const storedToken = await getToken();
       if (storedToken) {
         setToken(storedToken);
-        // Podrías agregar lógica para obtener el usuario desde el backend si fuera necesario
+        try {
+          const decodedUser: IAuthenticatedUser = jwtDecode(storedToken);
+          setUser(decodedUser);
+        } catch (error) {
+          console.error('Error al decodificar el token:', error);
+          await clearToken();
+          setToken(null);
+          setUser(null);
+        }
       }
       setIsLoading(false);
     };
