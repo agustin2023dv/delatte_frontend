@@ -10,7 +10,7 @@
 
 import { useState } from 'react';
 import { loginCustomer, loginManager } from '../services/authAccessApiService';
-import { useAuthContext } from 'src/context/AuthContext';
+import { useAuthContext } from 'src/core/context/AuthContext';
 import { toAuthenticatedUser } from '@shared/transformers/userTransformer';
 import { ILoginDTO } from '@delatte/shared/dtos';
 

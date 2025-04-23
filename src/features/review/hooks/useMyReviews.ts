@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getReviewsByUser } from '../services/reviewBaseApiService';
 import { IReviewResponseDTO } from '@delatte/shared/dtos';
-import { useAuthContext } from 'src/context/AuthContext';
+import { useAuthContext } from 'src/core/context/AuthContext';
 
 export const useMyReviews = () => {
   const { user } = useAuthContext();

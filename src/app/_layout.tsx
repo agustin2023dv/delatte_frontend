@@ -12,7 +12,7 @@
 
 import { Slot, useRouter } from 'expo-router';
 import { useEffect } from 'react';
-import { AuthProvider, useAuthContext } from 'src/context/AuthContext';
+import { AuthProvider, useAuthContext } from 'src/core/context/AuthContext';
 import { ThemeProvider } from 'src/theme/ThemeProvider';
 
 function RootContent() {

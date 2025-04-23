@@ -10,7 +10,7 @@
 
 import { useState } from 'react';
 import { loginWithGoogle } from '../services/authAccessApiService';
-import { useAuthContext } from 'src/context/AuthContext';
+import { useAuthContext } from 'src/core/context/AuthContext';
 import { toAuthenticatedUser } from '@shared/transformers/userTransformer';
 import { saveToken } from '../services/authService';
 

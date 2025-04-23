@@ -16,12 +16,12 @@ import React, {
   ReactNode,
 } from 'react';
 import {jwtDecode} from 'jwt-decode';
-import { IAuthenticatedUser } from '../core/types/IAuthenticatedUser';
+import { IAuthenticatedUser } from '../types/IAuthenticatedUser';
 import {
   clearToken,
   getToken,
   saveToken,
-} from '../features/auth/services/authService';
+} from '../../features/auth/services/authService';
 
 /**
  * Estructura del contexto de autenticación global.

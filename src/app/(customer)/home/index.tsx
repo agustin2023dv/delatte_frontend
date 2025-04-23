@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useRestaurantSearch } from 'src/features/restaurant/hooks/useRestaurantSearch';
 import RestaurantCard from '@shared/components/restaurant/RestaurantCard';
-import { useAuthContext } from 'src/context/AuthContext';
+import { useAuthContext } from 'src/core/context/AuthContext';
 
 const mockCarousel = [
   { id: '1', image: 'https://source.unsplash.com/800x400/?burger' },

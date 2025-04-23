@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useAuthContext } from 'src/context/AuthContext';
+import { useAuthContext } from 'src/core/context/AuthContext';
 
 const CustomerHeader = () => {
   const { user } = useAuthContext();
