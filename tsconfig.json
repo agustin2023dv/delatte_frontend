@@ -8,7 +8,7 @@
         "src/shared/*"
       ],
       "@features/*": [
-        "src/app/features/*"
+        "src/features/*"
       ],
       "@app/*": [
         "src/app/*"

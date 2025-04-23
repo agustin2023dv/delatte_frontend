@@ -1,5 +1,5 @@
-import ReservationCard from '@features/reservation/components/ReservationCard';
-import { useMyReservations } from '@features/reservation/hooks/useMyReservations';
+import ReservationCard from 'src/features/reservation/components/ReservationCard';
+import { useMyReservations } from 'src/features/reservation/hooks/useMyReservations';
 import React from 'react';
 import {
   View,

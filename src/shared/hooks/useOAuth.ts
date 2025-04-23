@@ -15,8 +15,8 @@
 
 import { useState, useEffect } from 'react';
 import * as AuthSession from 'expo-auth-session';
-import { generateSecureState } from 'src/app/features/auth/services/cryptoService';
-import { exchangeCodeForToken } from 'src/app/features/auth/services/oauthService';
+import { generateSecureState } from 'src/features/auth/services/cryptoService';
+import { exchangeCodeForToken } from 'src/features/auth/services/oauthService';
 
 const clientId = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID ?? '';
 const authorizationEndpoint = process.env.EXPO_PUBLIC_AUTHORIZATION_ENDPOINT ?? '';

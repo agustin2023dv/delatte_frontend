@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useResetPassword } from '@features/auth/hooks/useResetPassword';
+import { useResetPassword } from 'src/features/auth/hooks/useResetPassword';
 import DelatteButton from '@shared/components/ui/DelatteButton';
 
 const ResetPasswordScreen = () => {

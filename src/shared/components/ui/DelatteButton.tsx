@@ -25,7 +25,7 @@
 
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useThemeContext } from 'src/app/theme/ThemeProvider';
+import { useThemeContext } from 'src/theme/ThemeProvider';
 
 type Props = {
   title: string;

@@ -20,8 +20,8 @@ import {
 import DelatteButton from '@shared/components/ui/DelatteButton';
 import { useRouter } from 'expo-router';
 import { useOAuth } from '@shared/hooks/useOAuth';
-import { useGoogleOAuthRegister } from '@features/auth/hooks/useGoogleOAuthRegister';
-import { useRegisterUser } from '@features/auth/hooks/useRegisterUser';
+import { useGoogleOAuthRegister } from 'src/features/auth/hooks/useGoogleOAuthRegister';
+import { useRegisterUser } from 'src/features/auth/hooks/useRegisterUser';
 
 const RegisterCustomer = () => {
   const router = useRouter();

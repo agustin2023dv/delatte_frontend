@@ -1,5 +1,5 @@
-import ReviewCard from '@features/review/components/ReviewCard';
-import { useMyReviews } from '@features/review/hooks/useMyReviews';
+import ReviewCard from 'src/features/review/components/ReviewCard';
+import { useMyReviews } from 'src/features/review/hooks/useMyReviews';
 import React from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 
-import { useGetRestaurantById } from '@features/restaurant/hooks/useGetRestaurantById';
+import { useGetRestaurantById } from 'src/features/restaurant/hooks/useGetRestaurantById';
 import RestaurantInfoBlock from '@shared/components/restaurant/RestaurantInfoBlock';
 
 const RestaurantDetailsScreen = () => {

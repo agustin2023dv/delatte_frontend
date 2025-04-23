@@ -11,7 +11,7 @@
 
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
-import { useForgotPassword } from '@features/auth/hooks/useForgotPassword';
+import { useForgotPassword } from 'src/features/auth/hooks/useForgotPassword';
 import DelatteButton from '@shared/components/ui/DelatteButton';
 import { router } from 'expo-router';
 

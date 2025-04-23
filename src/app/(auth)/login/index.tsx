@@ -23,8 +23,8 @@ import {
 } from 'react-native';
 import DelatteButton from '@shared/components/ui/DelatteButton';
 import { useOAuth } from '@shared/hooks/useOAuth';
-import { useGoogleOAuthLogin } from '@features/auth/hooks/useGoogleOAuthLogin';
-import { useLogin } from '@features/auth/hooks/useLogin';
+import { useGoogleOAuthLogin } from 'src/features/auth/hooks/useGoogleOAuthLogin';
+import { useLogin } from 'src/features/auth/hooks/useLogin';
 import { useRouter } from 'expo-router';
 
 const Login = () => {

@@ -13,7 +13,7 @@
 import { Slot, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { AuthProvider, useAuthContext } from 'src/context/AuthContext';
-import { ThemeProvider } from 'src/app/theme/ThemeProvider';
+import { ThemeProvider } from 'src/theme/ThemeProvider';
 
 function RootContent() {
   const { user, isLoading } = useAuthContext();

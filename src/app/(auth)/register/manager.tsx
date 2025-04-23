@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import DelatteButton from '@ui/DelatteButton';
 import { useRouter } from 'expo-router';
-import { useRegisterRestaurantAndManager } from '../../features/restaurant/hooks/useRegisterRestaurantWithManager';
+import { useRegisterRestaurantAndManager } from '../../../features/restaurant/hooks/useRegisterRestaurantWithManager';
 
 const RegisterManager = () => {
   const router = useRouter();

@@ -1,5 +1,5 @@
-import PromotionCard from '@features/promotion/components/PromotionCard';
-import { useActivePromotions } from '@features/promotion/hooks/useActivePromotions';
+import PromotionCard from 'src/features/promotion/components/PromotionCard';
+import { useActivePromotions } from 'src/features/promotion/hooks/useActivePromotions';
 import React from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 

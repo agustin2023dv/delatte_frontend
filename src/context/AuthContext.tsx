@@ -21,7 +21,7 @@ import {
   clearToken,
   getToken,
   saveToken,
-} from '../app/features/auth/services/authService';
+} from '../features/auth/services/authService';
 
 /**
  * Estructura del contexto de autenticación global.
