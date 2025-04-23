@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useRestaurantSearch } from 'src/features/restaurant/hooks/useRestaurantSearch';
 import RestaurantCard from '@shared/components/restaurant/RestaurantCard';
 import { useAuthContext } from 'src/core/context/AuthContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const mockCarousel = [
   { id: '1', image: 'https://source.unsplash.com/800x400/?burger' },
@@ -25,10 +26,10 @@ const CustomerHomeScreen = () => {
   const { query, results, loading, error, handleSearch } = useRestaurantSearch();
   const { user } = useAuthContext();
 
-  const direccion = user?.profile?.addresses?.[0] || 'Sin dirección';
+
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
       {/* 🔍 SearchBar */}
       <View style={styles.searchContainer}>
@@ -63,7 +64,7 @@ const CustomerHomeScreen = () => {
         renderItem={({ item }) => <RestaurantCard restaurant={item} />}
         contentContainerStyle={styles.listContainer}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
