@@ -1,9 +1,11 @@
-// src/features/customer/components/CustomerBottomTab.tsx
+// src/features/customer/components/layout/footer/CustomerFooter.mobile.tsx
 
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
+
+import { LABELS_NAV } from '@shared/constants/labels.nav';
 
 // Importa las pantallas específicas para clientes
 import HomeScreen from '@app/(customer)/home';
@@ -19,17 +21,17 @@ const CustomerBottomTab = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName: keyof typeof MaterialCommunityIcons.glyphMap = 'help-circle-outline'; 
+          let iconName: keyof typeof MaterialCommunityIcons.glyphMap = 'help-circle-outline';
 
           if (route.name === 'Inicio') {
             iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Reservas') {
+          } else if (route.name === LABELS_NAV.RESERVATIONS) {
             iconName = focused ? 'calendar-check' : 'calendar-check-outline';
-          } else if (route.name === 'Promociones') {
+          } else if (route.name === LABELS_NAV.PROMOTIONS) {
             iconName = focused ? 'tag' : 'tag-outline';
-          } else if (route.name === 'Reseñas') {
+          } else if (route.name === LABELS_NAV.REVIEWS) {
             iconName = focused ? 'star' : 'star-outline';
-          } else if (route.name === 'Perfil') {
+          } else if (route.name === LABELS_NAV.PROFILE) {
             iconName = focused ? 'account' : 'account-outline';
           }
 
@@ -43,10 +45,10 @@ const CustomerBottomTab = () => {
       })}
     >
       <Tab.Screen name="Inicio" component={HomeScreen} />
-      <Tab.Screen name="Reservas" component={ReservationsScreen} />
-      <Tab.Screen name="Promociones" component={PromotionsScreen} />
-      <Tab.Screen name="Reseñas" component={ReviewsScreen} />
-      <Tab.Screen name="Perfil" component={ProfileScreen} />
+      <Tab.Screen name={LABELS_NAV.RESERVATIONS} component={ReservationsScreen} />
+      <Tab.Screen name={LABELS_NAV.PROMOTIONS} component={PromotionsScreen} />
+      <Tab.Screen name={LABELS_NAV.REVIEWS} component={ReviewsScreen} />
+      <Tab.Screen name={LABELS_NAV.PROFILE} component={ProfileScreen} />
     </Tab.Navigator>
   );
 };
