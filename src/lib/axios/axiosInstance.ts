@@ -1,4 +1,5 @@
 // src/lib/axios/axiosInstance.ts
+import { getToken } from '@features/auth/services/authService';
 import axios from 'axios';
 import { Platform } from 'react-native';
 
@@ -13,3 +14,16 @@ export const axiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+axiosInstance.interceptors.request.use(
+  async (config) => {
+    const token = await getToken();
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
