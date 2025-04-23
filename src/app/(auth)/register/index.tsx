@@ -1,23 +1,21 @@
-// src/app/(auth)/RegisterRoleSelectorScreen.tsx
-
 /**
- * 🧭 Pantalla `RegisterRoleSelectorScreen`
+ * 🧭 Pantalla `RegisterRoleSelector`
  *
  * Permite al usuario elegir el tipo de cuenta que desea crear:
  * - Cliente (registro simple con opción Google)
  * - Manager de restaurante (registro + creación de restaurante)
  *
  * 🔗 Navega a:
- * - `/RegisterScreen` → Registro de cliente
- * - `/RegisterManagerScreen` → Registro de manager + restaurante
+ * - `/register/customer` → Registro de cliente
+ * - `/register/manager` → Registro de manager + restaurante
  */
 
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import DelatteButton from '@ui/DelatteButton';
-import { useRouter } from 'expo-router';
+import { Link, usePathname, useRouter } from 'expo-router';
 
-const RegisterRoleSelectorScreen = () => {
+const RegisterRoleSelector = () => {
   const router = useRouter();
 
   return (
@@ -26,12 +24,13 @@ const RegisterRoleSelectorScreen = () => {
 
       <DelatteButton
         title="Cuenta de Cliente"
-        onPress={() => router.push('/(auth)/RegisterScreen')}
+        onPress={() => router.push('/(auth)/register/customer')}
       />
+
 
       <DelatteButton
         title="Cuenta de Manager"
-        onPress={() => router.push('/(auth)/RegisterManagerScreen')}
+        onPress={() => router.push('/(auth)/register/manager')}
       />
     </View>
   );
@@ -52,4 +51,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterRoleSelectorScreen;
+export default RegisterRoleSelector;

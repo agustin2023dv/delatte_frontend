@@ -1,27 +1,18 @@
-/**
- * 🔐 Pantalla `ResetPasswordScreen`
- *
- * Permite al usuario establecer una nueva contraseña luego de hacer clic en el enlace enviado por email.
- * 
- * ✔️ Usa el hook `useResetPassword` conectado al endpoint POST /users/password-resets
- * ✔️ El token se obtiene desde la query (`route.params.token`)
- * ✔️ Aplica validaciones mínimas antes de enviar
- * ✔️ Retroalimenta con mensajes de éxito y error
- */
+// src/app/(auth)/reset-password.tsx
 
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import { useResetPassword } from '../features/auth/hooks/useResetPassword';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useResetPassword } from '@features/auth/hooks/useResetPassword';
 import DelatteButton from '@shared/components/ui/DelatteButton';
 
 const ResetPasswordScreen = () => {
-  const route = useRoute<any>(); 
-  const navigation = useNavigation();
-  const token = route.params?.token;
+  const { token } = useLocalSearchParams<{ token?: string }>();
+  const router = useRouter();
 
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+
   const {
     handleResetPassword,
     loading,
@@ -80,7 +71,7 @@ const ResetPasswordScreen = () => {
 
       <DelatteButton
         title="← Volver al login"
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => router.push('/(auth)/login')}
       />
     </View>
   );

@@ -1,7 +1,5 @@
-// src/app/(auth)/LoginScreen.tsx
-
 /**
- * 🧩 Pantalla `LoginScreen`
+ * 🧩 Pantalla `Login`
  *
  * Permite iniciar sesión como cliente o manager mediante:
  * - Google OAuth 2.0
@@ -29,7 +27,7 @@ import { useGoogleOAuthLogin } from '@features/auth/hooks/useGoogleOAuthLogin';
 import { useLogin } from '@features/auth/hooks/useLogin';
 import { useRouter } from 'expo-router';
 
-const LoginScreen = () => {
+const Login = () => {
   const router = useRouter();
 
   const { startAuthentication } = useOAuth(onGoogleLogin);
@@ -75,7 +73,7 @@ const LoginScreen = () => {
         secureTextEntry
       />
 
-      <TouchableOpacity onPress={() => router.push('/(auth)/ForgotPasswordScreen')}>
+      <TouchableOpacity onPress={() => router.push('/(auth)/password/forgot-password')}>
         <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
       </TouchableOpacity>
 
@@ -89,7 +87,7 @@ const LoginScreen = () => {
 
       <DelatteButton
         title="¿No tenés cuenta? Crear cuenta"
-        onPress={() => router.push('/(auth)/RegisterRoleSelectorScreen')}
+        onPress={() => router.push('/(auth)/register')}
       />
     </View>
   );
@@ -125,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default Login;

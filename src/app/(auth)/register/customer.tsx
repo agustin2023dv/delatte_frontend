@@ -1,7 +1,5 @@
-// src/app/(auth)/RegisterScreen.tsx
-
 /**
- * 🧾 Pantalla `RegisterScreen`
+ * 🧾 Pantalla `RegisterCustomer`
  *
  * Permite registrar un nuevo usuario con rol `customer`, de forma:
  * - Manual: completando nombre, apellido, email y contraseña
@@ -25,7 +23,7 @@ import { useOAuth } from '@shared/hooks/useOAuth';
 import { useGoogleOAuthRegister } from '@features/auth/hooks/useGoogleOAuthRegister';
 import { useRegisterUser } from '@features/auth/hooks/useRegisterUser';
 
-const RegisterScreen = () => {
+const RegisterCustomer = () => {
   const router = useRouter();
 
   const { startAuthentication } = useOAuth(onGoogleRegister);
@@ -53,7 +51,7 @@ const RegisterScreen = () => {
       });
 
       Alert.alert('✅ Registro exitoso', 'Te enviamos un email para verificar tu cuenta.');
-      router.push('/(auth)/LoginScreen');
+      router.push('/(auth)/login');
     } catch {
       Alert.alert('Error al registrarse', error || 'Ocurrió un problema inesperado.');
     }
@@ -63,7 +61,7 @@ const RegisterScreen = () => {
     try {
       const newUser = await handleGoogleRegister(accessToken);
       Alert.alert('✅ Registro exitoso', `Te registraste como ${newUser.profile.nombre}`);
-      router.push('/(auth)/LoginScreen');
+      router.push('/(auth)/login');
     } catch (_) {
       // Error ya fue mostrado en el hook
     }
@@ -117,7 +115,7 @@ const RegisterScreen = () => {
       <DelatteButton title="Registrarme con Google" onPress={startAuthentication} />
       <DelatteButton
         title="Ya tengo cuenta"
-        onPress={() => router.push('/(auth)/LoginScreen')}
+        onPress={() => router.push('/(auth)/login')}
       />
     </ScrollView>
   );
@@ -145,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterScreen;
+export default RegisterCustomer;

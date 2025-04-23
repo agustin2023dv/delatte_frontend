@@ -1,14 +1,3 @@
-/**
- * 🧾 Pantalla `RegisterManagerScreen`
- *
- * Permite registrar un nuevo usuario con rol `manager` junto con su restaurante.
- *
- * ✔️ Utiliza el hook `useRegisterRestaurantAndManager`
- * ✔️ Valida que las contraseñas coincidan
- * ✔️ Llama al endpoint `POST /restaurants` con los datos del restaurante y del manager
- * 🚫 No permite registro con Google (solo formulario manual)
- */
-
 import React, { useState } from 'react';
 import {
   View,
@@ -20,9 +9,9 @@ import {
 } from 'react-native';
 import DelatteButton from '@ui/DelatteButton';
 import { useRouter } from 'expo-router';
-import { useRegisterRestaurantAndManager } from '../features/restaurant/hooks/useRegisterRestaurantWithManager';
+import { useRegisterRestaurantAndManager } from '../../features/restaurant/hooks/useRegisterRestaurantWithManager';
 
-const RegisterManagerScreen = () => {
+const RegisterManager = () => {
   const router = useRouter();
   const { handleRegister, loading, error } = useRegisterRestaurantAndManager();
 
@@ -39,7 +28,6 @@ const RegisterManagerScreen = () => {
   const [password, setPassword] = useState('');
   const [confirmarPassword, setConfirmarPassword] = useState('');
 
-  // ✅ Manejador de envío del formulario
   const onSubmit = async () => {
     if (password !== confirmarPassword) {
       Alert.alert('Error', 'Las contraseñas no coinciden.');
@@ -67,7 +55,7 @@ const RegisterManagerScreen = () => {
         'Tu restaurante ha sido creado. Verifica tu email para activar tu cuenta.'
       );
 
-      router.push('/(auth)/LoginScreen');
+      router.navigate('/(auth)/login')
     } catch {
       Alert.alert('Error', error || 'Ocurrió un problema al registrar el restaurante.');
     }
@@ -77,7 +65,6 @@ const RegisterManagerScreen = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Registrar restaurante y manager</Text>
 
-      {/* 📌 Datos del restaurante */}
       <Text style={styles.sectionTitle}>Datos del restaurante</Text>
       <TextInput
         placeholder="Nombre del restaurante"
@@ -99,7 +86,6 @@ const RegisterManagerScreen = () => {
         keyboardType="numeric"
       />
 
-      {/* 👤 Datos del manager */}
       <Text style={styles.sectionTitle}>Datos del manager</Text>
       <TextInput
         placeholder="Nombre"
@@ -179,4 +165,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterManagerScreen;
+export default RegisterManager;

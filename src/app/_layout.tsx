@@ -23,11 +23,11 @@ function RootContent() {
     if (isLoading) return;
 
     if (!user) {
-      router.replace('/(auth)/LoginScreen');
+      router.replace('/(auth)/login');
     } else if (user.role === 'customer') {
-      router.replace('/(customer)/CustomerHomeScreen');
+      router.replace('/(customer)/home');
     } else if (user.role === 'manager') {
-      router.replace('/(manager)/ManagerHomeScreen');
+      router.replace('/(manager)/home');
     }
   }, [user, isLoading]);
 

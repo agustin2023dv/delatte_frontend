@@ -1,4 +1,4 @@
-// src/app/(auth)/ForgotPasswordScreen.tsx
+// src/app/(auth)/password/forgot-password.tsx
 
 /**
  * 📧 Pantalla `ForgotPasswordScreen`
