@@ -1,3 +1,5 @@
+// src/features/customer/components/CustomerBottomTab.tsx
+
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,12 +14,12 @@ import ProfileScreen from '@app/(customer)/profile';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTab = () => {
+const CustomerBottomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName: keyof typeof MaterialCommunityIcons.glyphMap = 'help-circle-outline'; // por defecto
+          let iconName: keyof typeof MaterialCommunityIcons.glyphMap = 'help-circle-outline'; 
 
           if (route.name === 'Inicio') {
             iconName = focused ? 'home' : 'home-outline';
@@ -58,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomTab;
+export default CustomerBottomTab;
