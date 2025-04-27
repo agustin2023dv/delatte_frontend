@@ -1,41 +1,44 @@
-import React from 'react';
-import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+// src/app/(customer)/restaurants/[id].tsx
 
-import { useGetRestaurantById } from 'src/features/restaurant/hooks/useGetRestaurantById';
+import React from 'react';
+import { View, ActivityIndicator, ScrollView } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import { useGetRestaurantById } from '@features/restaurant/hooks/useGetRestaurantById';
 import RestaurantInfoBlock from '@shared/components/restaurant/RestaurantInfoBlock';
 
+/**
+ * 🏠 Screen `RestaurantDetailsScreen`
+ * 
+ * Muestra la información detallada de un restaurante para el usuario 'customer'.
+ * 
+ * Flujo:
+ * - Obtiene el ID del restaurante desde la URL.
+ * - Usa `useGetRestaurantById` para cargar los datos.
+ * - Muestra un spinner mientras carga.
+ * - Una vez cargado, muestra el `RestaurantInfoBlock`.
+ */
 const RestaurantDetailsScreen = () => {
+  // Obtener el ID del restaurante desde los parámetros de la URL
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { restaurant, loading, error } = useGetRestaurantById(id || '');
 
-  if (loading) return <ActivityIndicator style={styles.centered} size="large" />;
-  if (error) return <Text style={styles.error}>{error}</Text>;
-  if (!restaurant) return <Text style={styles.error}>Restaurante no encontrado.</Text>;
+  const { data: restaurant, isLoading } = useGetRestaurantById(id);
 
+
+  // Mostrar spinner mientras carga o si aún no hay datos
+  if (isLoading || !restaurant) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  // Mostrar la información del restaurante una vez cargada
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={{ padding: 16 }}>
       <RestaurantInfoBlock restaurant={restaurant} viewerRole="customer" />
-
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    gap: 24,
-  },
-  centered: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  error: {
-    marginTop: 48,
-    textAlign: 'center',
-    color: 'red',
-    fontSize: 16,
-  },
-});
 
 export default RestaurantDetailsScreen;

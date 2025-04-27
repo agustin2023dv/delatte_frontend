@@ -1,19 +1,33 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { IRestaurant } from '@delatte/shared/interfaces';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { IRestaurant, IUserRole } from '@delatte/shared/interfaces'; 
 import DelatteBadge from '@shared/components/ui/DelatteBadge';
+import { useGetRestaurantGallery } from '@features/restaurant/hooks/useGetRestaurantGallery';
+import RestaurantPhotoCarousel from '@features/restaurant/components/restaurant-photo-carousel/RestaurantPhotoCarousel';
 
 type Props = {
+  /**
+   * Objeto restaurante completo a renderizar
+   */
   restaurant: IRestaurant;
-  viewerRole: 'customer' | 'manager';
+
+  /**
+   * Rol del usuario que visualiza la información
+   * (solo puede ser 'customer' o 'manager' en este frontend)
+   */
+  viewerRole: Extract<IUserRole['role'], 'customer' | 'manager'>; 
 };
 
 /**
  * ℹ️ Componente `RestaurantInfoBlock`
  * 
- * Muestra información extendida del restaurante, adaptada según el rol del usuario:
- * - Customer: solo ve info pública y útil para su experiencia
- * - Manager: ve datos operativos y administrativos adicionales
+ * Muestra la información pública y administrativa de un restaurante,
+ * adaptándose según el rol del usuario que lo visualiza:
+ * 
+ * - Customer: ve solo información básica (nombre, descripción, dirección, contacto, horarios, etc).
+ * - Manager: además de lo anterior, ve información de capacidad de mesas y última actualización.
+ * 
+ * También carga y muestra un carrusel de fotos asociado al restaurante.
  */
 const RestaurantInfoBlock = ({ restaurant, viewerRole }: Props) => {
   const {
@@ -30,20 +44,33 @@ const RestaurantInfoBlock = ({ restaurant, viewerRole }: Props) => {
   const { status, stats } = operationalData;
   const tagList = tags?.tags ?? [];
 
+  // 🔵 Hook para obtener las fotos de la galería del restaurante
+  const { data: photos, isLoading } = useGetRestaurantGallery(
+    typeof restaurant._id === 'string' ? restaurant._id : restaurant._id.toString()
+  );
+
   return (
     <View style={styles.container}>
+      {/* 📸 Carrusel de fotos */}
+      {isLoading && <ActivityIndicator />}
+      {photos && photos.length > 0 && (
+        <RestaurantPhotoCarousel photos={photos} />
+      )}
+
       {/* 🏷️ Nombre y descripción */}
       <Text style={styles.title}>{identity.nombre}</Text>
       {identity.descripcion && <Text style={styles.description}>{identity.descripcion}</Text>}
 
       {/* 📍 Dirección */}
-      <Text style={styles.subtitle}>{location.direccion}, {location.localidad}, {location.pais}</Text>
+      <Text style={styles.subtitle}>
+        {location.direccion}, {location.localidad}, {location.pais}
+      </Text>
 
       {/* ☎️ Contacto */}
       {contact?.emailContacto && <Text style={styles.contact}>📧 {contact.emailContacto}</Text>}
       {contact?.telefono && <Text style={styles.contact}>📞 {contact.telefono}</Text>}
 
-      {/* 🟢 Estado y ⭐️ Calificación */}
+      {/* 🟢 Estado operativo y ⭐️ Calificación */}
       <View style={styles.badges}>
         <DelatteBadge
           text={status.estaAbierto ? 'Abierto' : 'Cerrado'}
@@ -67,7 +94,7 @@ const RestaurantInfoBlock = ({ restaurant, viewerRole }: Props) => {
         </View>
       )}
 
-      {/* 🏷️ Tags */}
+      {/* 🏷️ Etiquetas */}
       {tagList.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Etiquetas</Text>
@@ -75,7 +102,7 @@ const RestaurantInfoBlock = ({ restaurant, viewerRole }: Props) => {
         </View>
       )}
 
-      {/* 🪑 Capacidad (solo manager) */}
+      {/* 🪑 Capacidad (visible solo para managers) */}
       {viewerRole === 'manager' && capacity?.capacidadMesas?.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Capacidad de mesas</Text>
@@ -87,7 +114,7 @@ const RestaurantInfoBlock = ({ restaurant, viewerRole }: Props) => {
         </View>
       )}
 
-      {/* 🕓 Última actualización (solo manager) */}
+      {/* 🕓 Última actualización (visible solo para managers) */}
       {viewerRole === 'manager' && metadata?.ultimaActualizacion && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>
