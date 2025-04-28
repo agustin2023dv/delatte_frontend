@@ -6,6 +6,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useGetRestaurantById } from '@features/restaurant/hooks/useGetRestaurantById';
 import { useCheckIsManager } from '@features/restaurant/hooks/useCheckIsManager';
 import RestaurantInfoBlock from '@shared/components/restaurant/RestaurantInfoBlock';
+import RestaurantPhotoManager from '@features/restaurant/components/image-management/RestaurantPhotoManager'; // 👈 Importarlo acá
 
 const ManagerRestaurantDetailsScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -43,7 +44,7 @@ const ManagerRestaurantDetailsScreen = () => {
             Gestión de imágenes
           </Text>
 
-          {/* <RestaurantPhotoManager restaurantId={restaurant._id.toString()} /> */}
+          <RestaurantPhotoManager restaurantId={restaurant._id.toString()} />
         </View>
       )}
     </ScrollView>
