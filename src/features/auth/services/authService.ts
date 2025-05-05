@@ -19,8 +19,10 @@ export const saveToken = async (token: string): Promise<void> => {
   try {
     if (Platform.OS === 'web') {
       await AsyncStorage.setItem(STORAGE_KEY, token);
+      console.log('Token guardado en AsyncStorage:', token); // Log para depuración
     } else {
       await SecureStore.setItemAsync(STORAGE_KEY, token);
+      console.log('Token guardado en SecureStore:', token); // Log para depuración
     }
   } catch (error) {
     console.error('Error al guardar el token:', error);
@@ -32,13 +34,18 @@ export const saveToken = async (token: string): Promise<void> => {
  * - En móviles: `SecureStore`
  * - En web: `AsyncStorage`
  */
+
 export const getToken = async (): Promise<string | null> => {
   try {
+    let token: string | null;
     if (Platform.OS === 'web') {
-      return await AsyncStorage.getItem(STORAGE_KEY);
+      token = await AsyncStorage.getItem(STORAGE_KEY);
+      console.log('Token recuperado de AsyncStorage:', token); // Log para depuración
     } else {
-      return await SecureStore.getItemAsync(STORAGE_KEY);
+      token = await SecureStore.getItemAsync(STORAGE_KEY);
+      console.log('Token recuperado de SecureStore:', token); // Log para depuración
     }
+    return token;
   } catch (error) {
     console.error('Error al recuperar el token:', error);
     return null;

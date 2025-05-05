@@ -22,19 +22,24 @@ export const useLogin = () => {
   const handleLogin = async ({ email, password }: ILoginDTO) => {
     setLoading(true);
     setError(null);
+
     try {
-      // 🔁 Intenta primero login como customer
+      console.log('🔐 Intentando login con:', email);
+      const { token, user } = await loginCustomer({ email, password });
+      console.log('✅ Login como customer OK:', user);
+      return login(toAuthenticatedUser(user), token);
+    } catch (errCustomer: any) {
+      console.warn('❌ Login customer falló:', errCustomer?.response?.data);
+
       try {
-        const { token, user } = await loginCustomer({ email, password });
-        return login(toAuthenticatedUser(user), token);
-      } catch {
-        // Si falla, intenta login como manager
         const { token, user } = await loginManager({ email, password });
+        console.log('✅ Login como manager OK:', user);
         return login(toAuthenticatedUser(user), token);
+      } catch (errManager: any) {
+        console.error('❌ Login manager falló:', errManager?.response?.data);
+        setError(errManager?.response?.data?.message || errManager.message || 'Error inesperado');
+        throw errManager;
       }
-    } catch (err: any) {
-      setError(err?.response?.data?.message || err.message || 'Error inesperado');
-      throw err;
     } finally {
       setLoading(false);
     }

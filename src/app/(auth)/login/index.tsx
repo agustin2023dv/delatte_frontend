@@ -73,7 +73,7 @@ const Login = () => {
         secureTextEntry
       />
 
-      <TouchableOpacity onPress={() => router.push('/(auth)/password/forgot-password')}>
+      <TouchableOpacity onPress={() => router.push('/(auth)/password/forgot')}>
         <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
       </TouchableOpacity>
 

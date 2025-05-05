@@ -25,14 +25,21 @@ function RootContent() {
   useEffect(() => {
     if (isLoading) return;
   
-    if (!user) {
+    if (!user || !user.role) {
+      console.log('Redirigiendo a login...');
       router.replace(AUTH_ROUTES.LOGIN);
     } else if (user.role === 'customer') {
+      console.log('Redirigiendo a home de cliente...');
       router.replace(CUSTOMER_ROUTES.HOME);
     } else if (user.role === 'manager') {
+      console.log('Redirigiendo a home de manager...');
       router.replace(MANAGER_ROUTES.HOME);
+    } else {
+      console.warn('Rol desconocido:', user.role);
+      router.replace(AUTH_ROUTES.LOGIN); // Redirige al login si el rol es desconocido
     }
   }, [user, isLoading]);
+  
   
 
   return <Slot />;

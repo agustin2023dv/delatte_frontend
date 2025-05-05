@@ -15,7 +15,7 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { IAuthenticatedUser } from '../types/IAuthenticatedUser';
 import {
   clearToken,
@@ -38,6 +38,19 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
+ * Valida si el token JWT no está expirado.
+ */
+const isTokenValid = (token: string): boolean => {
+  try {
+    const decoded: any = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    return decoded.exp > currentTime;
+  } catch (error) {
+    return false;
+  }
+};
+
+/**
  * Proveedor global de autenticación.
  * Inicializa el token desde almacenamiento seguro (SecureStore) al montar.
  * Expone `login` y `logout` para modificar el estado.
@@ -47,14 +60,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  /**
-   * Recupera el token almacenado localmente al iniciar la app
-   * para mantener la sesión persistente (sin re-login manual).
-   */
   useEffect(() => {
     const loadStoredToken = async () => {
       const storedToken = await getToken();
-      if (storedToken) {
+      if (storedToken && isTokenValid(storedToken)) {
         setToken(storedToken);
         try {
           const decodedUser: IAuthenticatedUser = jwtDecode(storedToken);
@@ -65,6 +74,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setToken(null);
           setUser(null);
         }
+      } else {
+        await clearToken();
+        setToken(null);
+        setUser(null);
       }
       setIsLoading(false);
     };
