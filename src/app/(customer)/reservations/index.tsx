@@ -1,5 +1,5 @@
-import ReservationCard from 'src/features/reservation/components/ReservationCard';
-import { useMyReservations } from 'src/features/reservation/hooks/useMyReservations';
+// src/app/reservations/index.tsx
+
 import React from 'react';
 import {
   View,
@@ -8,9 +8,18 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
+import ReservationCard from 'src/features/reservation/components/ReservationCard';
+import { useMyReservations } from 'src/features/reservation/hooks/useMyReservations';
 
 const CustomerReservationsScreen = () => {
   const { reservations, loading, error, refetch } = useMyReservations();
+
+  // 🔍 Depuración
+  console.log({
+    loading,
+    error,
+    reservations,
+  });
 
   if (loading) {
     return (
@@ -28,7 +37,7 @@ const CustomerReservationsScreen = () => {
     );
   }
 
-  if (Array.isArray(reservations) && reservations.length === 0) {
+  if (!reservations || reservations.length === 0) {
     return (
       <View style={styles.centered}>
         <Text style={styles.empty}>No tenés reservas todavía.</Text>

@@ -11,9 +11,16 @@ export const useMyReservations = () => {
     try {
       setLoading(true);
       const data = await getOwnReservations();
-      setReservations(data);
+
+      if (Array.isArray(data)) {
+        setReservations(data);
+      } else {
+        console.warn('⚠️ Respuesta inesperada al obtener reservas:', data);
+        setReservations([]); // garantiza un array para evitar fallos
+      }
     } catch (err: any) {
       setError(err?.response?.data?.message || 'Error al obtener tus reservas');
+      setReservations([]); // fallback seguro en caso de error
     } finally {
       setLoading(false);
     }

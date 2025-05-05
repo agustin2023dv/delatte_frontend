@@ -1,6 +1,5 @@
 // src/app/features/reservations/services/reservationBaseApiService.ts
 
-
 import {
   ICreateReservationDTO,
   IReservationResponseDTO,
@@ -19,7 +18,7 @@ export const createReservation = async (
 };
 
 /**
- * Obtener reservas del usuario autenticado (customer o manager).
+ * Obtener las reservas propias del usuario autenticado (customer o manager).
  */
 export const getOwnReservations = async (): Promise<IReservationResponseDTO[]> => {
   const response = await axiosInstance.get('/reservations');
@@ -27,7 +26,7 @@ export const getOwnReservations = async (): Promise<IReservationResponseDTO[]> =
 };
 
 /**
- * Obtener reservas de un restaurante (manager o superadmin).
+ * Obtener todas las reservas de un restaurante (manager o superadmin).
  */
 export const getReservationsByRestaurant = async (
   restaurantId: string
@@ -37,7 +36,7 @@ export const getReservationsByRestaurant = async (
 };
 
 /**
- * Obtener reservas por ID de usuario (superadmin).
+ * Obtener todas las reservas de un usuario (superadmin).
  */
 export const getReservationsByUser = async (
   userId: string
@@ -47,7 +46,7 @@ export const getReservationsByUser = async (
 };
 
 /**
- * Obtener una reserva por su ID.
+ * Obtener una reserva específica por su ID.
  */
 export const getReservationById = async (
   reservationId: string
@@ -57,7 +56,7 @@ export const getReservationById = async (
 };
 
 /**
- * Cancelar una reserva.
+ * Cancelar una reserva existente.
  */
 export const cancelReservation = async (
   reservationId: string
@@ -67,7 +66,7 @@ export const cancelReservation = async (
 };
 
 /**
- * Actualizar una reserva.
+ * Actualizar una reserva existente.
  */
 export const updateReservation = async (
   reservationId: string,
@@ -78,7 +77,7 @@ export const updateReservation = async (
 };
 
 /**
- * Obtener todas las reservas (superadmin).
+ * Obtener todas las reservas del sistema (solo superadmins).
  */
 export const getAllReservations = async (): Promise<IReservationResponseDTO[]> => {
   const response = await axiosInstance.get('/reservations/all');
