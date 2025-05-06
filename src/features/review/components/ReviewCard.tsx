@@ -1,12 +1,28 @@
+/**
+ * 💬 Componente `ReviewCard`
+ *
+ * Muestra visualmente una reseña completa:
+ * - Calificación
+ * - Comentario
+ * - Autor (nombre y apellido)
+ * - Restaurante
+ * - Fecha
+ *
+ * Este componente es reutilizable en múltiples contextos:
+ * - Vista pública de un restaurante (sin acciones)
+ * - Vista de "Mis Reseñas" (puede recibir un slot `actionsComponent`)
+ */
+
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { IReviewResponseDTO } from '@delatte/shared/dtos';
 
 interface Props {
   review: IReviewResponseDTO;
+  actionsComponent?: React.ReactNode; // Slot opcional para botones Editar/Eliminar
 }
 
-const ReviewCard: React.FC<Props> = ({ review }) => {
+const ReviewCard: React.FC<Props> = ({ review, actionsComponent }) => {
   const {
     comentario,
     calificacion,
@@ -19,27 +35,28 @@ const ReviewCard: React.FC<Props> = ({ review }) => {
 
   return (
     <View style={styles.card}>
-      {/* Calificación */}
       <Text style={styles.title}>⭐ {calificacion}/5</Text>
-
-      {/* Comentario */}
       <Text style={styles.comment}>"{comentario}"</Text>
 
-      {/* Información del usuario (nombre y apellido) */}
       {usuario?.nombre && (
         <Text style={styles.meta}>👤 {usuario.nombre} {usuario.apellido}</Text>
       )}
 
-      {/* Nombre del restaurante */}
       {restaurante?.nombre && (
         <Text style={styles.meta}>📍 {restaurante.nombre}</Text>
       )}
 
-      {/* Fecha formateada */}
       <Text style={styles.meta}>🗓️ {formattedDate}</Text>
+
+      {actionsComponent && (
+        <View style={{ marginTop: 10 }}>
+          {actionsComponent}
+        </View>
+      )}
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   card: {

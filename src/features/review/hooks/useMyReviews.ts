@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getReviewsByUser } from '../services/reviewBaseApiService';
 import { IReviewResponseDTO } from '@delatte/shared/dtos';
-import { useAuthContext } from 'src/core/context/AuthContext';
+import { useAuthenticatedUser } from '@features/auth/hooks/useAuthenticatedUser';
 
 export const useMyReviews = () => {
-  const { user } = useAuthContext();
+  const { user, isReady } = useAuthenticatedUser();
   const [reviews, setReviews] = useState<IReviewResponseDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,8 +23,12 @@ export const useMyReviews = () => {
   };
 
   useEffect(() => {
-    fetchReviews();
-  }, [user?._id]);
+    if (isReady) {
+      fetchReviews();
+    } else if (!isReady) {
+      setLoading(false); 
+    }
+  }, [isReady]);
 
   return {
     reviews,
