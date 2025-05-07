@@ -1,11 +1,11 @@
-// src/app/features/customer/hooks/useUserAddresses.ts
+// src/app/features/users/hooks/useUserAddresses.ts
 
 import { useEffect, useState } from 'react';
 import {
   getUserAddresses,
   addUserAddress,
   removeUserAddress,
-} from '../services/userAddressApiService';
+} from './userAddressApiService';
 
 export const useUserAddresses = () => {
   const [addresses, setAddresses] = useState<string[]>([]);

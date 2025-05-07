@@ -1,4 +1,4 @@
-// src/app/features/customer/services/userProfileApiService.ts
+// src/app/features/users/services/userProfileApiService.ts
 
 
 import {

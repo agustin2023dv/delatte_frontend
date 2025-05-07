@@ -1,7 +1,7 @@
-// src/app/features/customer/hooks/useUserFavorites.ts
+// src/app/features/users/customer/hooks/useUserFavorites.ts
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUserFavorites, addUserFavorite, removeUserFavorite } from '../services/userFavoritesApiService';
+import { getUserFavorites, addUserFavorite, removeUserFavorite } from '../customer/services/userFavoritesApiService';
 import { IUserFavorites } from '@delatte/shared/interfaces';
 
 /**

@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { getFavoriteRestaurantsDetails } from '../services/userFavoritesApiService';
-import { useUserFavorites } from './useUserFavorites';
+import { useUserFavorites } from '../../hooks/useUserFavorites';
 import { IRestaurant } from '@delatte/shared/interfaces';
 
 /**

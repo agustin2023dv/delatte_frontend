@@ -3,7 +3,7 @@
 import React, { useMemo } from 'react';
 import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useUserFavorites } from '@features/customer/hooks/useUserFavorites';
+import { useUserFavorites } from '@features/users/hooks/useUserFavorites';
 
 interface FavoriteButtonProps {
   restaurantId: string;

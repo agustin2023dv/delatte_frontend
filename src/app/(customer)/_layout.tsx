@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import CustomerHeader from '@features/customer/components/layout/header/CustomerHeader';
-import CustomerFooter from '@features/customer/components/layout/footer/CustomerFooter'; // ← este es el selector
+import CustomerHeader from '@features/users/customer/components/layout/header/CustomerHeader';
+import CustomerFooter from '@features/users/customer/components/layout/footer/CustomerFooter'; // ← este es el selector
 import { Slot } from 'expo-router';
 
 export default function CustomerLayout() {

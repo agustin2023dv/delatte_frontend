@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { View, Text, FlatList, ActivityIndicator, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useFavoriteRestaurants } from '@features/customer/hooks/useFavoriteRestaurants';
-import { useUserFavorites } from '@features/customer/hooks/useUserFavorites';
+import { useFavoriteRestaurants } from '@features/users/customer/hooks/useFavoriteRestaurants';
+import { useUserFavorites } from '@features/users/hooks/useUserFavorites';
 import RestaurantCard from '@shared/components/restaurant/RestaurantCard';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 

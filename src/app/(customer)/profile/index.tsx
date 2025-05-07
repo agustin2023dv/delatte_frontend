@@ -9,8 +9,8 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-import { useUserProfile } from 'src/features/customer/hooks/useUserProfile';
-import { useUserAddresses } from 'src/features/customer/hooks/useUserAddresses';
+import { useUserProfile } from '@features/users/hooks/useUserProfile';
+import { useUserAddresses } from '@features/users/hooks/useUserAddresses';
 
 const ProfileScreen = () => {
   const { profile, loading, error } = useUserProfile();
