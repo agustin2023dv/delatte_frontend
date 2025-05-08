@@ -17,6 +17,7 @@ import React, {
 } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { IAuthenticatedUser } from '../types/IAuthenticatedUser';
+import { IUserRole } from '@delatte/shared/interfaces/User/IUserRole';
 import {
   clearToken,
   getToken,
@@ -31,6 +32,8 @@ type AuthContextType = {
   user: IAuthenticatedUser | null;
   token: string | null;
   isLoading: boolean; // ⏳ Indica si se está cargando el token al iniciar
+  userRole: IUserRole['role'] | null; // ✅ Derivado automáticamente del user
+  userId: string | null; // ✅ Derivado automáticamente del user
   login: (userData: IAuthenticatedUser, token: string) => void;
   logout: () => void;
 };
@@ -104,12 +107,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await clearToken();
   };
 
+  // 🔁 Derivados útiles
+  const userId: string | null = user?._id ?? null;
+  const userRole: IUserRole['role'] | null = user?.role ?? null;
+
   return (
     <AuthContext.Provider
       value={{
         user,
         token,
         isLoading,
+        userRole,
+        userId,
         login,
         logout,
       }}
