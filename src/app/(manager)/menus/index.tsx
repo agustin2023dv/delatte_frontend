@@ -1,0 +1,1 @@
+// src/app/(manager)/menus/index.tsx

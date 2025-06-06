@@ -56,3 +56,13 @@ export const updateReview = async (
 export const deleteReview = async (reviewId: string): Promise<void> => {
   await axiosInstance.delete(`/reviews/${reviewId}`);
 };
+
+/**
+ * Agregar una respuesta a una reseña.
+ */
+export const addReviewReply = async (
+  reviewId: string,
+  mensaje: string
+): Promise<void> => {
+  await axiosInstance.post(`/reviews/${reviewId}/replies`, { mensaje });
+};
