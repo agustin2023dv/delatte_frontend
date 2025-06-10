@@ -28,18 +28,18 @@ const ReservationCard: React.FC<Props> = ({ reservation }) => {
     <View style={styles.card}>
       <Text style={styles.title}>{restaurante.nombre}</Text>
       <Text style={styles.meta}>
-        📍 {restaurante.direccion}
+        {restaurante.direccion}
       </Text>
       <Text style={styles.meta}>
-        🗓️ {formattedDate} — 🕒 {horario}
+         {formattedDate} —  {horario}
       </Text>
       <Text style={styles.meta}>
-        👤 Adultos: {cantidadAdultos} — 🧒 Niños: {cantidadNinios}
+         Adultos: {cantidadAdultos} —  Niños: {cantidadNinios}
       </Text>
       {notas && <Text style={styles.notes}>📝 {notas}</Text>}
       <Text style={styles.status}>Estado: {estado}</Text>
       <ReservationActions reservation={reservation} />
-      <Text style={styles.createdAt}>📅 Creada: {formattedCreated}</Text>
+      <Text style={styles.createdAt}>Creada: {formattedCreated}</Text>
     </View>
   );
 };
