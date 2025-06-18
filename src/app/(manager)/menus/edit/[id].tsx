@@ -10,24 +10,14 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-  Platform,
 } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useUpdateMenu } from '@features/menus/hooks/useUpdateMenu';
 import { useGetMenuById } from '@features/menus/hooks/useGetMenuById';
 import { IUpdateMenuDTO } from '@delatte/shared/dtos';
 import { Ionicons } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
 
-let PickerComponent: any;
-if (Platform.OS === 'web') {
-  const Select = require('react-select').default;
-  PickerComponent = Select;
-} else {
-  const { Picker } = require('@react-native-picker/picker');
-  PickerComponent = Picker;
-}
-
-const isWeb = Platform.OS === 'web';
 const ITEMS_PER_PAGE = 5;
 
 const allowedTipos = ['Comida', 'Bebidas', 'Postres'] as const;
@@ -35,18 +25,6 @@ type TipoMenu = typeof allowedTipos[number];
 
 const isTipoValido = (value: any): value is TipoMenu =>
   allowedTipos.includes(value);
-
-interface Option {
-  value: TipoMenu | undefined;
-  label: string;
-}
-
-const optionsTipoMenu: Option[] = [
-  { value: undefined, label: 'Seleccionar tipo' },
-  { value: 'Comida', label: 'Comida' },
-  { value: 'Bebidas', label: 'Bebidas' },
-  { value: 'Postres', label: 'Postres' },
-];
 
 type EditableMenuItem = {
   _id: string;
@@ -184,40 +162,19 @@ const EditMenuScreen = () => {
       <Text style={styles.title}>Editar Menú</Text>
 
       <Text style={styles.label}>Tipo de menú</Text>
-      {isWeb ? (
-        <PickerComponent
-          options={optionsTipoMenu}
-          value={optionsTipoMenu.find((opt) => opt.value === form.tipo)}
-          onChange={(selectedOption: Option) => {
-            if (isTipoValido(selectedOption.value)) {
-              setForm({ ...form, tipo: selectedOption.value });
-            }
-          }}
-          styles={{
-            control: (base: any) => ({
-              ...base,
-              borderColor: '#ccc',
-              borderRadius: 4,
-              marginBottom: 16,
-            }),
-            menu: (base: any) => ({ ...base, zIndex: 9999 }),
-          }}
-        />
-      ) : (
-        <PickerComponent
-          selectedValue={form.tipo}
-          onValueChange={(value: string) => {
-            if (isTipoValido(value)) {
-              setForm({ ...form, tipo: value });
-            }
-          }}
-        >
-          <PickerComponent.Item label="Seleccionar tipo" value={undefined} />
-          <PickerComponent.Item label="Comida" value="Comida" />
-          <PickerComponent.Item label="Bebidas" value="Bebidas" />
-          <PickerComponent.Item label="Postres" value="Postres" />
-        </PickerComponent>
-      )}
+      <Picker
+        selectedValue={form.tipo}
+        onValueChange={(value: string) => {
+          if (isTipoValido(value)) {
+            setForm({ ...form, tipo: value });
+          }
+        }}
+      >
+        <Picker.Item label="Seleccionar tipo" value={undefined} />
+        <Picker.Item label="Comida" value="Comida" />
+        <Picker.Item label="Bebidas" value="Bebidas" />
+        <Picker.Item label="Postres" value="Postres" />
+      </Picker>
 
       <Text style={styles.sectionTitle}>Ítems del Menú</Text>
 
